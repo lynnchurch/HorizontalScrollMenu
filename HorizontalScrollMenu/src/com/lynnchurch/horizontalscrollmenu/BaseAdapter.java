@@ -13,7 +13,9 @@ import android.view.View;
  */
 public interface BaseAdapter
 {
-	List<String> getMenuItems();
+	public List<String> getMenuItems();
 
-	List<View> getContentViews();
+	public List<View> getContentViews();
+	
+	public void onPageChanged(int position,boolean visitStatus);
 }

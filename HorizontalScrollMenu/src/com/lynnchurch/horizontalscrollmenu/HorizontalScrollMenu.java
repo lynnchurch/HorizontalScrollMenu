@@ -10,13 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -43,6 +41,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	private int mPaddingRight = 20;
 	private int mPaddingBottom = 20;
 	private HorizontalScrollView hsv_menu;
+	private boolean[] mVisitStatus;
 
 	public HorizontalScrollMenu(Context context)
 	{
@@ -75,7 +74,9 @@ public class HorizontalScrollMenu extends LinearLayout
 	public void setAdapter(BaseAdapter adapter)
 	{
 		mAdapter = adapter;
-		initMenuItems(mAdapter.getMenuItems());
+		List<String> items = mAdapter.getMenuItems();
+		mVisitStatus = new boolean[items.size()];
+		initMenuItems(items);
 		initContentViews(mAdapter.getContentViews());
 	}
 
@@ -166,6 +167,8 @@ public class HorizontalScrollMenu extends LinearLayout
 			}
 			vp_content.setCurrentItem(position);
 			moveItemToCenter(btn);
+			mAdapter.onPageChanged(position, mVisitStatus[position]);
+			mVisitStatus[position] = true;
 		}
 
 	};
@@ -210,7 +213,7 @@ public class HorizontalScrollMenu extends LinearLayout
 		int[] locations = new int[2];
 		rb.getLocationInWindow(locations);
 		int rbWidth = rb.getWidth();
-		hsv_menu.smoothScrollBy((locations[0] + rbWidth / 2-screenWidth / 2),
+		hsv_menu.smoothScrollBy((locations[0] + rbWidth / 2 - screenWidth / 2),
 				0);
 	}
 

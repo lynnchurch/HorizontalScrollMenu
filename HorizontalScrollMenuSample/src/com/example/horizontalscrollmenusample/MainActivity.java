@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity
 {
@@ -57,6 +58,15 @@ public class MainActivity extends Activity
 				views.add(v);
 			}
 			return views;
+		}
+
+		@Override
+		public void onPageChanged(int position, boolean visitStatus)
+		{
+			// TODO Auto-generated method stub
+			Toast.makeText(MainActivity.this,
+					"内容页：" + (position + 1) + " 访问状态：" + visitStatus,
+					Toast.LENGTH_SHORT).show();
 		}
 
 	}
