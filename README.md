@@ -1,2 +1,2 @@
 # HorizontalScrollMenu
-一个横向滑动菜单框架
+一个Android横向滑动导航菜单

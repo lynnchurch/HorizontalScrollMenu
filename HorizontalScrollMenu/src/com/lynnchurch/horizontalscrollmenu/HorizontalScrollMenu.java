@@ -41,7 +41,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	private int mPaddingRight = 20;
 	private int mPaddingBottom = 20;
 	private HorizontalScrollView hsv_menu;
-	private boolean[] mVisitStatus;
+	private boolean[] mVisitStatus; // 菜单访问状态
 
 	public HorizontalScrollMenu(Context context)
 	{
