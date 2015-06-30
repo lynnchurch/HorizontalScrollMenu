@@ -87,7 +87,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	 */
 	public void initMenuItems(List<String> items)
 	{
-		if (null != items)
+		if (null != items && 0 != items.size())
 		{
 			rg_items.setOnCheckedChangeListener(mItemListener);
 			for (String str : items)
@@ -114,7 +114,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	 */
 	public void initContentViews(List<View> contentViews)
 	{
-		if (null == contentViews)
+		if (null == contentViews || 0 == contentViews.size())
 		{
 			return;
 		}
