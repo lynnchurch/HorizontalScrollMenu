@@ -110,6 +110,8 @@ public class HorizontalScrollMenu extends LinearLayout
 	 */
 	public void notifyDataSetChanged(BaseAdapter adapter)
 	{
+		rg_items.removeAllViews();
+		rb_items.clear();
 		initView(adapter);
 	}
 
@@ -335,5 +337,4 @@ public class HorizontalScrollMenu extends LinearLayout
 		vp_content.setSwiped(swiped);
 	}
 
-	
 }
