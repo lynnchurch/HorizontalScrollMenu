@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -32,7 +33,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	private BaseAdapter mAdapter;
 	private RadioGroup rg_items;
 	private List<RadioButton> rb_items = new ArrayList<RadioButton>();
-	private ViewPager vp_content;
+	private MyViewPager vp_content;
 	private Context mContext;
 	private ColorStateList mColors;
 	private int mBackgroundResId;
@@ -42,8 +43,9 @@ public class HorizontalScrollMenu extends LinearLayout
 	private int mPaddingBottom = 20;
 	private HorizontalScrollView hsv_menu;
 	private boolean[] mVisitStatus; // 菜单访问状态
-	private List<String> mItems;
-	private List<View> mPagers;
+	private List<String> mItems; // 菜单名
+	private List<View> mPagers; // 内容页
+	private boolean mSwiped = true; // 是否可滑动
 
 	public HorizontalScrollMenu(Context context)
 	{
@@ -66,7 +68,7 @@ public class HorizontalScrollMenu extends LinearLayout
 		View v = LayoutInflater.from(context).inflate(
 				R.layout.horizontal_scroll_menu, this, true);
 		rg_items = (RadioGroup) v.findViewById(R.id.rg_items);
-		vp_content = (ViewPager) v.findViewById(R.id.vp_content);
+		vp_content = (MyViewPager) v.findViewById(R.id.vp_content);
 		mColors = getResources().getColorStateList(
 				R.drawable.selector_menu_item_text);
 		hsv_menu = (HorizontalScrollView) v.findViewById(R.id.hsv_menu);
@@ -149,7 +151,7 @@ public class HorizontalScrollMenu extends LinearLayout
 		{
 			return;
 		}
-		vp_content.setAdapter(new MyViewPager(contentViews));
+		vp_content.setAdapter(new MyViewPagerAdapter(contentViews));
 		vp_content.setOnPageChangeListener(mPageListener);
 	}
 
@@ -196,7 +198,7 @@ public class HorizontalScrollMenu extends LinearLayout
 					position = i;
 				}
 			}
-			vp_content.setCurrentItem(position);
+			vp_content.setCurrentItem(position, mSwiped);
 			moveItemToCenter(btn);
 			mAdapter.onPageChanged(position, mVisitStatus[position]);
 			mVisitStatus[position] = true;
@@ -287,11 +289,11 @@ public class HorizontalScrollMenu extends LinearLayout
 	 * @author Administrator
 	 * 
 	 */
-	static class MyViewPager extends PagerAdapter
+	static class MyViewPagerAdapter extends PagerAdapter
 	{
 		private List<View> mViews;
 
-		public MyViewPager(List<View> views)
+		public MyViewPagerAdapter(List<View> views)
 		{
 			// TODO Auto-generated constructor stub
 			mViews = views;
@@ -326,4 +328,12 @@ public class HorizontalScrollMenu extends LinearLayout
 			return mViews.get(position);
 		}
 	}
+
+	public void setSwiped(boolean swiped)
+	{
+		mSwiped = swiped;
+		vp_content.setSwiped(swiped);
+	}
+
+	
 }

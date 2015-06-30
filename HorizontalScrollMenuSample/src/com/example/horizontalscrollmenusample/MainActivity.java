@@ -29,6 +29,7 @@ public class MainActivity extends Activity
 	public void initView()
 	{
 		hsm_container = (HorizontalScrollMenu) findViewById(R.id.hsm_container);
+		hsm_container.setSwiped(false);
 		hsm_container.setAdapter(new MenuAdapter());
 	}
 
