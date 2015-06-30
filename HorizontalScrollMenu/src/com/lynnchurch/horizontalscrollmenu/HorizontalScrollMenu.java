@@ -42,6 +42,8 @@ public class HorizontalScrollMenu extends LinearLayout
 	private int mPaddingBottom = 20;
 	private HorizontalScrollView hsv_menu;
 	private boolean[] mVisitStatus; // 菜单访问状态
+	private List<String> mItems;
+	private List<View> mPagers;
 
 	public HorizontalScrollMenu(Context context)
 	{
@@ -73,11 +75,40 @@ public class HorizontalScrollMenu extends LinearLayout
 
 	public void setAdapter(BaseAdapter adapter)
 	{
-		mAdapter = adapter;
-		List<String> items = mAdapter.getMenuItems();
-		mVisitStatus = new boolean[items.size()];
-		initMenuItems(items);
-		initContentViews(mAdapter.getContentViews());
+		if (null != adapter)
+		{
+			adapter.setHorizontalScrollMenu(this);
+			mAdapter = adapter;
+			initView(adapter);
+		}
+	}
+
+	/**
+	 * 初始化视图
+	 * 
+	 * @param adapter
+	 */
+	private void initView(BaseAdapter adapter)
+	{
+		if (null == adapter)
+		{
+			return;
+		}
+		mItems = mAdapter.getMenuItems();
+		mVisitStatus = new boolean[mItems.size()];
+		initMenuItems(mItems);
+		mPagers = mAdapter.getContentViews();
+		initContentViews(mPagers);
+	}
+
+	/**
+	 * 当数据集改变通知视图重绘
+	 * 
+	 * @param adapter
+	 */
+	public void notifyDataSetChanged(BaseAdapter adapter)
+	{
+		initView(adapter);
 	}
 
 	/**
@@ -85,7 +116,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	 * 
 	 * @param items
 	 */
-	public void initMenuItems(List<String> items)
+	private void initMenuItems(List<String> items)
 	{
 		if (null != items && 0 != items.size())
 		{
@@ -112,7 +143,7 @@ public class HorizontalScrollMenu extends LinearLayout
 	 * 
 	 * @param contentViews
 	 */
-	public void initContentViews(List<View> contentViews)
+	private void initContentViews(List<View> contentViews)
 	{
 		if (null == contentViews || 0 == contentViews.size())
 		{

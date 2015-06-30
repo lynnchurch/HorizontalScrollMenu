@@ -32,7 +32,7 @@ public class MainActivity extends Activity
 		hsm_container.setAdapter(new MenuAdapter());
 	}
 
-	class MenuAdapter implements BaseAdapter
+	class MenuAdapter extends BaseAdapter
 	{
 		String[] names = new String[]
 		{ "菜单一", "菜单二", "菜单三", "菜单四", "菜单五", "菜单六", "菜单七" };
